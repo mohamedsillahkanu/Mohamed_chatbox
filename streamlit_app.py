@@ -1,20 +1,29 @@
 import streamlit as st
 from openai import OpenAI
+import requests
+from PIL import Image
+from io import BytesIO
 
 # Show title and description.
-st.title("💬 Chatbot")
-st.write(
-    "This is a simple chatbot that uses OpenAI's GPT-3.5 model to generate responses. "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-    "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
-)
+st.title("💬 ICF-SL Chatbot")
 
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-openai_api_key = st.text_input("OpenAI API Key", type="password")
+# Add the image with enhanced styling
+try:
+    image_url = "https://raw.githubusercontent.com/mohamedsillahkanu/si/726bcf69bf5539b005011a0bfd7ebc91a4b29a06/icf_sl%20(1).jpg"
+    response = requests.get(image_url)
+    if response.status_code == 200:
+        image = Image.open(BytesIO(response.content))
+        st.image(image, caption="ICF SL Image", use_container_width=True)
+    else:
+        st.error("Failed to load image")
+except Exception as e:
+    st.error(f"Error loading image: {e}")
+
+
+openai_api_key = "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"
+
 if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
+    st.info("", icon="🗝️")
 else:
 
     # Create an OpenAI client.
@@ -32,7 +41,7 @@ else:
 
     # Create a chat input field to allow the user to enter a message. This will display
     # automatically at the bottom of the page.
-    if prompt := st.chat_input("What is up?"):
+    if prompt := st.chat_input("🤖 ICF-SL AI Assistant. What would you like to know?"):
 
         # Store and display the current prompt.
         st.session_state.messages.append({"role": "user", "content": prompt})
