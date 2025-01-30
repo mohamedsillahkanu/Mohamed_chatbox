@@ -57,7 +57,7 @@ def handle_user_input(client):
 
 def main():
     # Set page title
-    st.title("💬 Mohamed's Chatbot")
+    st.title("💬 ICF-SL Chatbot")
     
     # Load image
     load_image()
