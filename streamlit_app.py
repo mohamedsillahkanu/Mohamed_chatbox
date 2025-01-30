@@ -38,19 +38,22 @@ def handle_user_input(client):
         with st.chat_message("user"):
             st.markdown(prompt)
         
-        # Generate and display AI response
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-            stream=True,
-        )
-        
-        with st.chat_message("assistant"):
-            response = st.write_stream(stream)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        try:
+            # Generate and display AI response
+            stream = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": m["role"], "content": m["content"]}
+                    for m in st.session_state.messages
+                ],
+                stream=True,
+            )
+            
+            with st.chat_message("assistant"):
+                response = st.write_stream(stream)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+        except Exception as e:
+            st.error(f"Error generating response: {str(e)}")
 
 def main():
     # Set page title
@@ -59,12 +62,10 @@ def main():
     # Load image
     load_image()
     
-    # Set OpenAI API key
-    openai_api_key = "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"
-    
-    if not openai_api_key:
-        st.info("Please enter your OpenAI API key", icon="🗝️")
-    else:
+    try:
+        # Get API key from secrets
+        openai_api_key = st.secrets["OPENAI_API_KEY"]
+        
         # Initialize OpenAI client
         client = OpenAI(api_key=openai_api_key)
         
@@ -76,6 +77,11 @@ def main():
         
         # Handle user input
         handle_user_input(client)
+        
+    except KeyError:
+        st.error("OpenAI API key not found. Please add it to your Streamlit secrets.")
+    except Exception as e:
+        st.error(f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
     main()
