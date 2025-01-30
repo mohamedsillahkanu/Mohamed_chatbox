@@ -59,8 +59,7 @@ def main():
     # Load image
     load_image()
     
-    # Set OpenAI API key
-    openai_api_key = "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"
+    
     
     if not openai_api_key:
         st.info("Please enter your OpenAI API key", icon="🗝️")
