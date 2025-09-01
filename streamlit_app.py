@@ -5,36 +5,48 @@ from PIL import Image
 from io import BytesIO
 
 def apply_blue_theme():
-    """Apply custom blue theme styling"""
+    """Apply custom dark blue and black theme styling"""
     st.markdown("""
     <style>
     /* Import Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
-    /* Main app styling */
-    .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Global dark theme */
+    .stApp {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);
+        color: #e2e8f0 !important;
         font-family: 'Inter', sans-serif;
     }
     
+    /* Main app styling */
+    .main {
+        background: transparent;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    /* Hide Streamlit elements */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    
     /* Sidebar styling */
     .css-1d391kg {
-        background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
     }
     
     /* Title styling */
     .main-title {
-        background: linear-gradient(90deg, #1e40af, #3b82f6, #60a5fa);
-        background-size: 200% 200%;
-        animation: gradient 3s ease infinite;
+        background: linear-gradient(90deg, #60a5fa, #3b82f6, #1d4ed8, #1e40af);
+        background-size: 300% 300%;
+        animation: gradient 4s ease infinite;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        font-size: 3rem;
-        font-weight: 700;
+        font-size: 3.5rem;
+        font-weight: 800;
         text-align: center;
-        margin-bottom: 1rem;
-        text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
     }
     
     @keyframes gradient {
@@ -45,139 +57,189 @@ def apply_blue_theme():
     
     /* Custom container */
     .chat-container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 2rem;
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 2.5rem;
         margin: 1rem 0;
-        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 
+            0 0 0 1px rgba(59, 130, 246, 0.1),
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(59, 130, 246, 0.2);
     }
     
     /* Image container */
     .image-container {
         text-align: center;
         margin: 2rem 0;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
-        backdrop-filter: blur(5px);
+        padding: 1.5rem;
+        background: rgba(30, 41, 59, 0.6);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
     
     /* Chat messages styling */
     .stChatMessage {
-        background: rgba(255, 255, 255, 0.9) !important;
-        border-radius: 15px !important;
-        margin: 0.5rem 0 !important;
+        background: rgba(30, 41, 59, 0.7) !important;
+        border-radius: 16px !important;
+        margin: 0.8rem 0 !important;
         backdrop-filter: blur(10px) !important;
         border: 1px solid rgba(59, 130, 246, 0.2) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+        color: #e2e8f0 !important;
     }
     
     /* User message */
     .stChatMessage[data-testid="user"] {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
-        color: white !important;
+        background: linear-gradient(135deg, #1e40af, #1d4ed8, #2563eb) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(59, 130, 246, 0.4) !important;
+        box-shadow: 0 4px 20px rgba(29, 78, 216, 0.4) !important;
     }
     
     /* Assistant message */
     .stChatMessage[data-testid="assistant"] {
-        background: linear-gradient(135deg, #f8fafc, #e2e8f0) !important;
+        background: linear-gradient(135deg, #1e293b, #334155) !important;
         border-left: 4px solid #3b82f6 !important;
+        color: #e2e8f0 !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
     }
     
     /* Input box styling */
     .stChatInputContainer {
-        background: rgba(255, 255, 255, 0.9) !important;
+        background: rgba(15, 23, 42, 0.9) !important;
         border-radius: 25px !important;
         border: 2px solid #3b82f6 !important;
-        backdrop-filter: blur(10px) !important;
+        backdrop-filter: blur(15px) !important;
+        box-shadow: 
+            0 0 0 1px rgba(59, 130, 246, 0.3),
+            0 8px 32px rgba(0, 0, 0, 0.4) !important;
     }
     
     .stChatInput {
         background: transparent !important;
         border: none !important;
-        color: #1f2937 !important;
+        color: #e2e8f0 !important;
         font-weight: 500 !important;
+    }
+    
+    .stChatInput::placeholder {
+        color: #94a3b8 !important;
     }
     
     /* Button styling */
     .stButton > button {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+        background: linear-gradient(135deg, #1e40af, #2563eb, #3b82f6) !important;
         color: white !important;
         border: none !important;
-        border-radius: 10px !important;
-        padding: 0.5rem 1rem !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 1.5rem !important;
         font-weight: 600 !important;
         transition: all 0.3s ease !important;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4) !important;
+        box-shadow: 
+            0 0 0 1px rgba(59, 130, 246, 0.3),
+            0 4px 15px rgba(59, 130, 246, 0.4) !important;
     }
     
     .stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 
+            0 0 0 1px rgba(59, 130, 246, 0.5),
+            0 8px 25px rgba(59, 130, 246, 0.6) !important;
+        background: linear-gradient(135deg, #2563eb, #3b82f6, #60a5fa) !important;
     }
     
     /* Error and success messages */
     .stAlert {
-        border-radius: 10px !important;
+        border-radius: 12px !important;
         border: none !important;
+        backdrop-filter: blur(10px) !important;
     }
     
     .stAlert[data-baseweb="notification"] {
-        background: rgba(239, 68, 68, 0.1) !important;
+        background: rgba(15, 23, 42, 0.8) !important;
         border-left: 4px solid #ef4444 !important;
+        color: #fecaca !important;
     }
     
     /* Welcome message */
     .welcome-message {
-        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-        padding: 1.5rem;
-        border-radius: 15px;
-        margin: 1rem 0;
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.6));
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 1.5rem 0;
         border-left: 5px solid #3b82f6;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+        box-shadow: 
+            0 0 0 1px rgba(59, 130, 246, 0.2),
+            0 8px 32px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(15px);
+        color: #e2e8f0;
+    }
+    
+    .welcome-message h3 {
+        color: #60a5fa;
+        margin-bottom: 1rem;
     }
     
     /* Feature cards */
     .feature-card {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        padding: 1rem;
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.4));
+        backdrop-filter: blur(15px);
+        border-radius: 16px;
+        padding: 1.5rem;
         margin: 0.5rem 0;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: transform 0.3s ease;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        transition: all 0.3s ease;
+        color: #e2e8f0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
     
     .feature-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+        transform: translateY(-5px);
+        box-shadow: 
+            0 0 0 1px rgba(59, 130, 246, 0.4),
+            0 12px 40px rgba(59, 130, 246, 0.2);
+        border-color: rgba(59, 130, 246, 0.5);
+    }
+    
+    .feature-card h4 {
+        color: #60a5fa;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Text styling */
+    .stMarkdown, .stText, p, h1, h2, h3, h4, h5, h6 {
+        color: #e2e8f0 !important;
     }
     
     /* Scrollbar styling */
     ::-webkit-scrollbar {
-        width: 8px;
+        width: 12px;
     }
     
     ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(15, 23, 42, 0.5);
         border-radius: 10px;
     }
     
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
         border-radius: 10px;
+        border: 2px solid rgba(15, 23, 42, 0.5);
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        background: linear-gradient(135deg, #2563eb, #60a5fa);
     }
     
     /* Loading animation */
     .loading {
         display: inline-block;
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         border: 3px solid rgba(59, 130, 246, 0.3);
         border-radius: 50%;
         border-top-color: #3b82f6;
@@ -186,6 +248,20 @@ def apply_blue_theme():
     
     @keyframes spin {
         to { transform: rotate(360deg); }
+    }
+    
+    /* Spinner styling */
+    .stSpinner {
+        color: #3b82f6 !important;
+    }
+    
+    /* Footer styling */
+    .footer {
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     }
     </style>
     """, unsafe_allow_html=True)
@@ -271,7 +347,8 @@ def handle_user_input(client):
                     stream = client.chat.completions.create(
                         model="gpt-3.5-turbo",
                         messages=[
-                            {"role": "system", "content": "You are a helpful AI assistant for ICF Sierra Leone, a consulting company. Provide informative and professional responses about the company, its services, projects, and general inquiries. Be friendly and helpful."},
+                            {"role": "system", "content": "You are a helpful AI assistant for ICF Sierra Leone, a consulting company. Provide informative and professional responses about the company, its services, projects, and general inquiries. Be friendly and helpful."}
+                        ] + [
                             {"role": m["role"], "content": m["content"]}
                             for m in st.session_state.messages
                         ],
@@ -350,10 +427,12 @@ def main():
     
     # Footer
     st.markdown("""
-    <div style="text-align: center; margin-top: 2rem; padding: 1rem; 
-                background: rgba(255,255,255,0.1); border-radius: 10px;">
-        <p style="color: #ffffff; font-size: 0.9rem;">
-            💼 Powered by ICF Sierra Leone | Built with ❤️ using Streamlit
+    <div class="footer" style="text-align: center; margin-top: 2rem; padding: 1.5rem;">
+        <p style="color: #60a5fa; font-size: 0.95rem; font-weight: 500;">
+            💼 Powered by ICF Sierra Leone | Built with ❤️ using Streamlit & OpenAI
+        </p>
+        <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 0.5rem;">
+            🌟 Advanced AI Assistant for Professional Consulting Services
         </p>
     </div>
     """, unsafe_allow_html=True)
