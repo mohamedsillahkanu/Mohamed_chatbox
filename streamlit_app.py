@@ -372,6 +372,34 @@ def apply_blue_theme():
     </style>
     """, unsafe_allow_html=True)
 
+def add_background_elements():
+    """Add decorative background elements"""
+    st.markdown("""
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+    </div>
+    
+    <!-- Corner Decorations -->
+    <div class="corner-decoration corner-top-left"></div>
+    <div class="corner-decoration corner-top-right"></div>
+    <div class="corner-decoration corner-bottom-left"></div>
+    <div class="corner-decoration corner-bottom-right"></div>
+    
+    <!-- Glowing Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+    """, unsafe_allow_html=True)
+
 def load_image():
     """Load and display the ICF SL image with enhanced styling"""
     try:
@@ -503,33 +531,7 @@ def handle_user_input(client):
             st.error(f"❌ Error generating response: {str(e)}")
             st.info("💡 Please check your OpenAI API key and try again.")
 
-def add_background_elements():
-    """Add decorative background elements"""
-    st.markdown("""
-    <!-- Floating Particles -->
-    <div class="particles">
-        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
-        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
-        <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
-        <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
-        <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
-        <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
-        <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
-        <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
-    </div>
-    
-    <!-- Corner Decorations -->
-    <div class="corner-decoration corner-top-left"></div>
-    <div class="corner-decoration corner-top-right"></div>
-    <div class="corner-decoration corner-bottom-left"></div>
-    <div class="corner-decoration corner-bottom-right"></div>
-    
-    <!-- Glowing Orbs -->
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <div class="glow-orb orb-3"></div>
-    """, unsafe_allow_html=True)
+def main():
     # Configure page
     st.set_page_config(
         page_title="ICF-SL AI Chatbot",
@@ -541,8 +543,26 @@ def add_background_elements():
     # Apply blue theme
     apply_blue_theme()
     
+    # Add background decorative elements
+    add_background_elements()
+    
     # Main title with custom styling
     st.markdown('<h1 class="main-title">🤖 ICF-SL AI Assistant</h1>', unsafe_allow_html=True)
+    
+    # Add subtitle with animation
+    st.markdown("""
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <p style="color: #94a3b8; font-size: 1.1rem; font-weight: 300; 
+                  text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+            Intelligent Consulting Solutions • Sierra Leone Excellence • AI-Powered Support
+        </p>
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 1rem;">
+            <div style="width: 40px; height: 1px; background: linear-gradient(90deg, transparent, #3b82f6);"></div>
+            <div style="margin: 0 1rem; color: #60a5fa; font-size: 1.5rem;">⚡</div>
+            <div style="width: 40px; height: 1px; background: linear-gradient(90deg, #3b82f6, transparent);"></div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Create main container
     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
