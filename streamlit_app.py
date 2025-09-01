@@ -72,13 +72,119 @@ def apply_blue_theme():
     /* Image container */
     .image-container {
         text-align: center;
-        margin: 2rem 0;
-        padding: 1.5rem;
+        margin: 1.5rem auto;
+        padding: 1rem;
         background: rgba(30, 41, 59, 0.6);
         border-radius: 20px;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(59, 130, 246, 0.3);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(59, 130, 246, 0.1);
+        max-width: 400px;
+    }
+    
+    /* Floating particles animation */
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #3b82f6;
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: float 20s infinite linear;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(100vh) translateX(-50px); opacity: 0; }
+        10% { opacity: 0.6; }
+        90% { opacity: 0.6; }
+        100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
+    }
+    
+    /* Decorative corner elements */
+    .corner-decoration {
+        position: fixed;
+        width: 200px;
+        height: 200px;
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .corner-top-left {
+        top: 0;
+        left: 0;
+        background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    }
+    
+    .corner-top-right {
+        top: 0;
+        right: 0;
+        background: radial-gradient(circle at center, rgba(29, 78, 216, 0.1) 0%, transparent 70%);
+    }
+    
+    .corner-bottom-left {
+        bottom: 0;
+        left: 0;
+        background: radial-gradient(circle at center, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+    }
+    
+    .corner-bottom-right {
+        bottom: 0;
+        right: 0;
+        background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    }
+    
+    /* Glowing orbs */
+    .glow-orb {
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(1px);
+        animation: pulse 4s ease-in-out infinite alternate;
+        z-index: 1;
+    }
+    
+    .orb-1 {
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+    
+    .orb-2 {
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(29, 78, 216, 0.2) 0%, transparent 70%);
+        top: 60%;
+        right: 15%;
+        animation-delay: 2s;
+    }
+    
+    .orb-3 {
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle, rgba(96, 165, 250, 0.4) 0%, transparent 70%);
+        bottom: 30%;
+        left: 20%;
+        animation-delay: 1s;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 0.3; transform: scale(1); }
+        100% { opacity: 0.8; transform: scale(1.2); }
     }
     
     /* Chat messages styling */
@@ -274,10 +380,12 @@ def load_image():
         if response.status_code == 200:
             image = Image.open(BytesIO(response.content))
             
-            # Create image container with custom styling
-            st.markdown('<div class="image-container">', unsafe_allow_html=True)
-            st.image(image, caption="🏢 ICF Sierra Leone", use_container_width=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            # Create centered column layout for smaller logo
+            col1, col2, col3 = st.columns([1, 2, 1])
+            with col2:
+                st.markdown('<div class="image-container">', unsafe_allow_html=True)
+                st.image(image, caption="🏢 ICF Sierra Leone", width=300)
+                st.markdown('</div>', unsafe_allow_html=True)
         else:
             st.error("❌ Failed to load image")
     except Exception as e:
@@ -289,6 +397,13 @@ def show_welcome_message():
     <div class="welcome-message">
         <h3>🤖 Welcome to ICF-SL AI Assistant!</h3>
         <p>I'm here to help you with information about ICF Sierra Leone. Feel free to ask me anything!</p>
+        <div style="display: flex; align-items: center; justify-content: center; margin-top: 1rem;">
+            <span style="background: linear-gradient(90deg, #3b82f6, #60a5fa); 
+                        width: 60px; height: 2px; display: inline-block; margin: 0 10px;"></span>
+            <span style="color: #60a5fa; font-size: 1.2rem;">✨</span>
+            <span style="background: linear-gradient(90deg, #60a5fa, #3b82f6); 
+                        width: 60px; height: 2px; display: inline-block; margin: 0 10px;"></span>
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -297,24 +412,48 @@ def show_welcome_message():
     with col1:
         st.markdown("""
         <div class="feature-card">
-            <h4>💼 Services</h4>
-            <p>Learn about our consulting services and expertise</p>
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; 
+                           background: linear-gradient(135deg, #3b82f6, #1d4ed8); 
+                           display: flex; align-items: center; justify-content: center; 
+                           margin: 0 auto 0.5rem; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                    <span style="font-size: 1.5rem;">💼</span>
+                </div>
+            </div>
+            <h4 style="text-align: center;">Services</h4>
+            <p style="text-align: center; font-size: 0.9rem;">Learn about our consulting services and expertise</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
         <div class="feature-card">
-            <h4>🌍 Projects</h4>
-            <p>Discover our projects and impact in Sierra Leone</p>
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; 
+                           background: linear-gradient(135deg, #1d4ed8, #2563eb); 
+                           display: flex; align-items: center; justify-content: center; 
+                           margin: 0 auto 0.5rem; box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);">
+                    <span style="font-size: 1.5rem;">🌍</span>
+                </div>
+            </div>
+            <h4 style="text-align: center;">Projects</h4>
+            <p style="text-align: center; font-size: 0.9rem;">Discover our projects and impact in Sierra Leone</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown("""
         <div class="feature-card">
-            <h4>📞 Contact</h4>
-            <p>Get in touch with our team for inquiries</p>
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; 
+                           background: linear-gradient(135deg, #2563eb, #3b82f6); 
+                           display: flex; align-items: center; justify-content: center; 
+                           margin: 0 auto 0.5rem; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);">
+                    <span style="font-size: 1.5rem;">📞</span>
+                </div>
+            </div>
+            <h4 style="text-align: center;">Contact</h4>
+            <p style="text-align: center; font-size: 0.9rem;">Get in touch with our team for inquiries</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -364,7 +503,33 @@ def handle_user_input(client):
             st.error(f"❌ Error generating response: {str(e)}")
             st.info("💡 Please check your OpenAI API key and try again.")
 
-def main():
+def add_background_elements():
+    """Add decorative background elements"""
+    st.markdown("""
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+    </div>
+    
+    <!-- Corner Decorations -->
+    <div class="corner-decoration corner-top-left"></div>
+    <div class="corner-decoration corner-top-right"></div>
+    <div class="corner-decoration corner-bottom-left"></div>
+    <div class="corner-decoration corner-bottom-right"></div>
+    
+    <!-- Glowing Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+    """, unsafe_allow_html=True)
     # Configure page
     st.set_page_config(
         page_title="ICF-SL AI Chatbot",
