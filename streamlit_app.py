@@ -56,7 +56,7 @@ st.markdown("""
     /* Copy button styling */
     .stCodeBlock button {
         background-color: #ffffff !important;
-        color: #000000 !important;
+        color: red !important;
         border: 1px solid #e5e7eb !important;
         border-radius: 6px !important;
         padding: 4px 8px !important;
